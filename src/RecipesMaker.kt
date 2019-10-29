@@ -4,9 +4,10 @@ fun main() {
     var option: String?
     var allRecips = ""
     var numRecetas = 0;
+    var numDsiponibles = 3;
     val ingredients = listOf("Agua", "Leche", "Carne", "Verduras", "Frutas", "Cereal", "Huevos", "Aceites")
 
-    do {
+    terminarRecetas@do {
         println("""
             Selecciona la opcion deseada
             1. Hacer una receta
@@ -19,6 +20,7 @@ fun main() {
         when(option){
             "1"->{
                 numRecetas++;
+                if(numRecetas == 4) break@terminarRecetas
                 allRecips += "Receta #$numRecetas\n------------\n"
                 do{
                     var printIngredients = "0. Salir "
@@ -28,7 +30,7 @@ fun main() {
                         """.trimIndent()
                     }
                     //2-Seleccionar los ingredients
-                    println("Selecciona (1-8) los ingredients para la receta")
+                    println("Selecciona ingredientes del 1-8 (Solo se permiten 3 recetas disponible: ${numDsiponibles})")
                     println(printIngredients)
                     option = readLine()
                     when(option){
@@ -41,17 +43,16 @@ fun main() {
                         "7" -> allRecips += "+${ingredients[6]}\n"
                         "8" -> allRecips += "+${ingredients[7]}\n"
                         else -> println("Opcion no valida")
-                    }
+                     }
                 }while (!(option.equals("0")))
                 allRecips +="------------\n"
+                numDsiponibles--;
             }
-            "2"-> {
-                    if(allRecips.equals(""))
-                        println("No hay recetas aun")
-                    else
-                        println(allRecips)  }
+            "2"-> if(!allRecips.equals("")) println(allRecips) else println("No ha registrado recetas aun")
             "3"-> println("Adios")
             else -> println("Opcion no valida")
         }
     }while (!(option?.equals("3"))!!)
+
+    println("Todas tus recetas\n$allRecips")
 }
